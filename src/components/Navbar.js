@@ -7,14 +7,16 @@ export default function Navbar(props){
         >
             <Link className="navbar-brand brand" to="/">CB Analysis</Link>
             <button
-                className="navbar-toggler d-lg-none"
+                className="navbar-toggler d-lg-none order-last"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapsibleNavId"
                 aria-controls="collapsibleNavId"
                 aria-expanded="false"
                 aria-label="Toggle navigation"
-            ></button>
+            >
+                <span className="navbar-toggler-icon"></span>
+            </button>
             <div className="collapse navbar-collapse" id="collapsibleNavId">
                 <ul className="navbar-nav me-auto mt-lg-0">
                     {props.links.map((link, idx) => {
@@ -26,6 +28,7 @@ export default function Navbar(props){
                     })}
                 </ul>
             </div>
+            {props.greeting? <p className="text-light mb-0">Welcome, {props.greeting}</p> : null}
         </nav>
         
     )

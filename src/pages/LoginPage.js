@@ -1,15 +1,21 @@
-import { useState } from "react";
 import Form from "../components/Form";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/Navbar"
+import { useState } from "react";
+import CryptoJS from "crypto-js";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage(props){
     const [loginEmail, setLoginEmail] = useState("");
     const [loginPass, setLoginPass] = useState("");
+    const navigate = useNavigate();
 
     const login = (e) => {
         e.preventDefault();
 
+        let user = {email: loginEmail}
+        const encUser = CryptoJS.AES.encrypt(JSON.stringify(user),'key').toString();
+        sessionStorage.setItem("user",encUser);
+        navigate("/");
     }
 
     const formElements = [
@@ -24,15 +30,17 @@ export default function LoginPage(props){
             value: loginPass, setChange: setLoginPass
         },
     ];
+
     const formButtons = [
         {type: 'submit', color:'light', label: 'Submit'}
     ]
+    
     const links = [
         {label:'Login', href:'/login', active: true},
         {label:'Register', href:'/register'},
     ]
     return(
-        <section className="d-flex flex-column justify-content-between page align-items-center gap-3">
+        <>
             <Navbar links={links}/>
             <Form 
                 elements={formElements} 
@@ -40,7 +48,6 @@ export default function LoginPage(props){
                 formName='Login'
                 submitFunc={login}
             />
-            <Footer/>
-        </section>
+        </>
     )
 }
