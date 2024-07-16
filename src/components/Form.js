@@ -3,7 +3,7 @@ import Input from "./Input";
 export default function Form(props){
     return (
         <form 
-            className="d-flex flex-column bg-dark gap-2 p-3 w-75 rounded rounded-lg"
+            className="d-flex flex-column bg-dark gap-2 p-3 col-6 rounded rounded-lg"
             onSubmit={(e) => props.submitFunc(e)}
         >
             {props.formName? <h2 className="text-light text-center">{props.formName}</h2> : null}

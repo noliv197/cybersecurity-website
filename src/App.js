@@ -15,12 +15,12 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Main setUser={setUser}/>}>
           <Route index element={<UserPage user={user}/>}/>
-          <Route path='/login' element={<LoginPage/>}/>
+          <Route path='/login' element={<LoginPage />}/>
           <Route path='/register' element={<RegisterPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Route>
-        <Route path='/admin' >
-          <Route path='home' element={<AdminPage/>}/>
+        <Route path='/admin' element={<Main setUser={setUser}/>}>
+          <Route index element={<AdminPage user={user}/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

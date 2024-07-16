@@ -5,8 +5,9 @@ export default function Input({element}){
                 element.tag === 'input' ? (
                     <input
                         className="form-control"
-                        id={element.type}
+                        id={element.id}
                         type={element.type} 
+                        name={element.id}
                         placeholder={element.placeholder}
                         value={element.value}
                         required={element.required}
@@ -16,7 +17,8 @@ export default function Input({element}){
                 ): element.tag === 'textarea' ? (
                     <textarea
                         className="form-control"
-                        id={element.type}
+                        id={element.id}
+                        name={element.id}
                         value={element.value}
                         placeholder={element.placeholder}
                         required={element.required}
@@ -26,10 +28,12 @@ export default function Input({element}){
                 ) : element.tag === 'select' ? (
                     <select
                         className="form-select"
-                        id={element.type}
-                        type={element.type} 
+                        id={element.id}
+                        name={element.id}
                         placeholder={element.placeholder}
                         required={element.required}
+                        value={element.value}
+                        onChange={(e) => element.setChange(e.target.value)}
                         disabled={element.disabled}
                     >
                         {element.options.map((option, idx) => 
@@ -44,7 +48,7 @@ export default function Input({element}){
                     </select>
                 ) : null
             }
-            <label htmlFor={element.type}>{element.label}</label>
+            <label htmlFor={element.id}>{element.label}</label>
         </div>
     )
 }
