@@ -11,17 +11,17 @@ export default function Table(props){
                 </tr>
             </thead>
             <tbody>
-                {props.content.map((row,trIdx)=>{
+                {props.content && props.content.length > 0 ? props.content.map((row,trIdx)=>{
                     return(
                         <tr key={trIdx}>
-                            {row.map((rowContent,tdIdx)=>{
+                            {row && row.length > 0? row.map((rowContent,tdIdx)=>{
                                 return(
                                     <td key={tdIdx}>{rowContent}</td>
                                 )
-                            })}
+                            }): null}
                         </tr>
                     )
-                })}
+                }): null}
             </tbody>
             {props.tfoot ? (
                 props.tfoot.map((row,trIdx)=>{

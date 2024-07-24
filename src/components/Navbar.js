@@ -28,7 +28,10 @@ export default function Navbar(props){
                     })}
                 </ul>
             </div>
-            {props.greeting? <p className="text-light mb-0">Welcome, {props.greeting}</p> : null}
+            <div className="d-flex align-items-center gap-3">
+                {props.greeting? <p className="text-light mb-0">Welcome, {props.greeting}</p> : null}
+                {props.button? props.button : null}
+            </div>
         </nav>
         
     )
