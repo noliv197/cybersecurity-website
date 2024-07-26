@@ -1,11 +1,15 @@
+import { useId } from "react"
+
 export default function Input({element}){
+    const inputId = useId();
+
     return (
         <div className="form-floating mb-3">
             { 
                 element.tag === 'input' ? (
                     <input
                         className="form-control"
-                        id={element.id}
+                        id={inputId}
                         type={element.type} 
                         name={element.id}
                         placeholder={element.placeholder}
@@ -17,7 +21,7 @@ export default function Input({element}){
                 ): element.tag === 'textarea' ? (
                     <textarea
                         className="form-control"
-                        id={element.id}
+                        id={inputId}
                         name={element.id}
                         value={element.value}
                         placeholder={element.placeholder}
@@ -28,7 +32,7 @@ export default function Input({element}){
                 ) : element.tag === 'select' ? (
                     <select
                         className="form-select"
-                        id={element.id}
+                        id={inputId}
                         name={element.id}
                         placeholder={element.placeholder}
                         required={element.required}
@@ -48,7 +52,7 @@ export default function Input({element}){
                     </select>
                 ) : null
             }
-            <label htmlFor={element.id}>{element.label}</label>
+            <label htmlFor={inputId}>{element.label}</label>
         </div>
     )
 }

@@ -10,21 +10,19 @@ import Alert from "../components/Alert";
 
 export default function LoginPage(props){
     const navigate = useNavigate();
+    const [alert, setAlert] = useState({message: "",type: ""});
     const [login, setLogin] = useState({
         email: "",
         pass: "",
         role: "c"
-    })
-    // const [loginEmail, setLoginEmail] = useState("");
-    // const [loginPass, setLoginPass] = useState("");
-    // const [role, setRole] = useState("c");
-    const [alert, setAlert] = useState({message: "",type: ""});
+    });
 
     const changeObjState = (propertyName,newVal)=>{
         setLogin((prev)=>{
             return {...prev,[propertyName]:newVal};
         })
     }
+    
     const submitLogin = (e) => {
         e.preventDefault();
 

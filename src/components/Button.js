@@ -8,7 +8,7 @@ export default function Button(props){
     }
     return(
         <button className={`btn btn-${props.color? props.color : "dark"}`} type={props.type? props.type: "button"} onClick={handleClick}>
-            {btnLabel}
+            {props.value}
         </button>
     )
 }
