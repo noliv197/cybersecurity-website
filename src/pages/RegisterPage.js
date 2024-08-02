@@ -112,14 +112,13 @@ export default function RegisterPage(){
         {type: 'submit', color:'light', label: 'Submit'}
     ];
     
-    const links = [
-        {label:'Login', href:'/login', active: true},
-        {label:'Register', href:'/register'},
-    ];
-    
+   
     return(
         <>
-            <Navbar links={links}/>
+            <Navbar links={ [
+                {label:'Login', href:'/login', active: true},
+                {label:'Register', href:'/register'},
+            ]}/>
             <Alert alert={alert} setAlert={setAlert}/>
             <Form 
                 elements={formElements} 

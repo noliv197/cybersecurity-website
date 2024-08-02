@@ -3,26 +3,27 @@ import PostService from "../services/http-service";
 
 export default function Info(props){
     const content = props.content;
-    const [projectList, setProjectList] = useState(null)
+    const [projectList, setProjectList] = useState(null);
 
     useEffect(()=>{
-        if(props.type === 'user'){
+        if(props.type === 'user' && content){
             let request = new FormData();
-            request.append('uid', props.content.uid);
+            request.append('uid', content.uid);
             request.append('sid', props.sid);
             PostService.post("projassignall",request).then(
                 (response) =>{
                     setProjectList(response.data)
                 },
-                () => {
+                (err) => {
                     setProjectList(null);
                 }
             )
         }
-    },[props])
+    },[props, content])
+
     return(
-        <div className="popup-card text-dark w-50">
-            {props.type === 'project'?
+        <div className="popup-card text-dark">
+            {props.type === 'project' && content?
                 <>
                     <h2>Project Details</h2>
                     <ul>
@@ -48,7 +49,7 @@ export default function Info(props){
                         </li>
                     </ul>
                 </>
-                :
+                : props.type === 'user' && content ?
                 <>
                     <h2>Staff Details</h2>
                     <ul>
@@ -61,17 +62,22 @@ export default function Info(props){
                             <p className="mb-0">{content.email}</p>
                         </li>
                         <li className="d-flex align-items-center mb-0 gap-2">
+                            <h3 className="font-weight-bold">Phone:</h3>
+                            <p className="mb-0">{content.phone}</p>
+                        </li>
+                        <li className="d-flex flex-column mb-0 gap-2">
                             <h3 className="font-weight-bold">Assigned Projects:</h3>
                             <ol>
                                 {projectList && projectList.length > 0 ? 
-                                    projectList.map(proj => 
-                                        <li key={proj.projectCode}>{proj.projectCode} {proj.projectName}</li>
+                                    projectList.map((proj, idx) => 
+                                        <li key={idx}>{proj.projectCode} - {proj.projectName}</li>
                                     )
                                 : <li>No project information</li>}
                             </ol>
                         </li>
                     </ul>
                 </>
+                : <p>Unable to load data</p>
             }
         </div>
     )

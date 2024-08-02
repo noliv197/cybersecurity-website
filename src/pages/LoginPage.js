@@ -52,10 +52,16 @@ export default function LoginPage(props){
                             props.setUser(loginUser);
                             const encUser = CryptoJS.AES.encrypt(JSON.stringify(loginUser),'key').toString();
                             sessionStorage.setItem("user",encUser);
-                            if(response.data.role === 'c'){
-                                navigate("/");
-                            } else {
-                                navigate("/admin");
+                            switch (response.data.role) {
+                                case 'a':
+                                    navigate("/admin");
+                                break;
+                                case 's':
+                                    navigate("/staff");
+                                break;
+                                default:
+                                    navigate("/");
+                                break;
                             }
                         },
                         (err) => {
@@ -98,23 +104,19 @@ export default function LoginPage(props){
             ]
         },
     ];
-
-    const formButtons = [
-        {type: 'submit', color:'light', label: 'Submit'}
-    ];
-    
-    const links = [
-        {label:'Login', href:'/login', active: true},
-        {label:'Register', href:'/register'},
-    ];
-    
+       
     return(
         <>
-            <Navbar links={links}/>
+            <Navbar 
+                links={[
+                    {label:'Login', href:'/login', active: true},
+                    {label:'Register', href:'/register'},
+                ]}
+            />
             <Alert alert={alert} setAlert={setAlert}/>
             <Form 
                 elements={formElements} 
-                buttons={formButtons} 
+                buttons={[{type: 'submit', color:'light', label: 'Submit'}]} 
                 formName='Login'
                 submitFunc={submitLogin}
             />

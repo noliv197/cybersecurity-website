@@ -12,7 +12,8 @@ export default function UserPage(props){
 
     useEffect(()=>{
         if(!props.user.value || !props.sid.value) navigate('/login');
-        else if(props.user.value.role !== 'c') navigate('/admin');
+        else if(props.user.value.role === 's') navigate('/staff');
+        else if(props.user.value.role === 'a') navigate('/admin');
     }, [props.sid.value, props.user.value, navigate]);
 
     const links = [

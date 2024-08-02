@@ -21,8 +21,7 @@ export default function RegisterProjectPage(props){
     useEffect(()=>{
         if(!props.user.value || !props.sid.value) navigate('/login');
         else if(props.user.value.role === 'c') navigate('/');
-        else if(props.user.value.role === 's') navigate('/admin');
-        
+        else if(props.user.value.role === 's') navigate('/staff');
     }, [props.sid.value, props.user.value, navigate]);
 
     const changeObjState = (propertyName,newVal)=>{
@@ -34,8 +33,12 @@ export default function RegisterProjectPage(props){
     const links = [
         {label:'Dashboard', href:'/admin'},
         {label:'Activate Users', href:'/admin/activate'},
-        {label:'Register Project', href:'/admin/register-project', active: true},
-        {label:'Assign Projects', href:'/admin/assign-project',}
+        {label:'Register Company', href:'/admin/register-company'},
+        {dropdown:'Projects', dropdownList:[
+            {label:'Register Project', href:'/admin/register-project', active: true},
+            {label:'Assign Project to User', href:'/admin/assign-user'},
+            {label:'Assign Project to Company', href:'/admin/assign-company'},
+        ]}
     ];
 
     const formElements = [

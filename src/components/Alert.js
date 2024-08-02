@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function Alert(props){
     const hideAlert = () => {
         props.setAlert({
@@ -6,9 +8,21 @@ export default function Alert(props){
         });
     }
 
+    useEffect(()=>{
+        setTimeout(()=> 
+            props.setAlert({
+            message: "",
+            type: ""
+        }),5000)
+    }, [props.alert.message]);
+
     return(
         <div
-            className={`alert alert-${props.alert.type} alert-dismissible fade show ${props.alert.message? "d-block": "d-none"}`}
+            className={`alert alert-dismissible fade show 
+                alert-${props.alert.type} 
+                ${props.alert.message? "d-block": "d-none"}
+                ${props.small? "w-75": ""}
+            `}
             role="alert"
         >
             <button

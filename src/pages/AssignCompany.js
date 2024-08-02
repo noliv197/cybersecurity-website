@@ -6,33 +6,33 @@ import Logout from "../components/Logout";
 import Alert from "../components/Alert";
 import ProjectTable from "../components/ProjectTable";
 
-export default function AssignProjectPage(props){
+export default function AssignCompanyPage(props){
     const navigate = useNavigate();
 
     useEffect(()=>{
         if(!props.user.value || !props.sid.value) navigate('/login');
         else if(props.user.value.role === 'c') navigate('/');
+        else if(props.user.value.role === 's') navigate('/staff');
     }, [props.sid.value, props.user.value, navigate]);
 
     const [alert, setAlert] = useState({message: "",type: ""});
     const [projects, setProjects] = useState([]);
-    const [assignedProjects, setAssignedProjects] = useState([]);
-    const [staff, setStaff] = useState([]);
+    const [company, setCompanies] = useState([]);
 
     useEffect(()=>{
         let session = new FormData();
         session.append("sid", props.sid.value);
         session.append("role","s");
-        PostService.post("users",session).then(
+        PostService.post("copall",session).then(
             (response) => {
-                setStaff(response.data.map(user => {
-                        return {value: user.uid, label: user.fname + " " + user.lname}
+                setCompanies(response.data.map(company => {
+                        return {value: company.cid, label: company.companyName}
                     })
                 )
             },
             (err) => {
                 setAlert({
-                    message: 'Unable to load staff from backend'+JSON.stringify(err.response.data),
+                    message: 'Unable to load companies from backend'+JSON.stringify(err.response.data),
                     type: 'warning'
                 });
             }
@@ -44,25 +44,9 @@ export default function AssignProjectPage(props){
         let session = new FormData();
         session.append("sid", props.sid.value);
 
-        PostService.post("projassignall",session).then(
-            (response) => {
-                setAssignedProjects(response.data)
-            },
-            (err) => {
-                setAlert({
-                    message: 'Unable to load data from backend'+JSON.stringify(err.response.data),
-                    type: 'warning'
-                });
-            }
-        )
-
         PostService.post("projall",session).then(
             (response) => {
-                // setProjects(response.data.map(project => {
-                //     let projectAssigned = assignedProjects.find(proj => proj.projectCode === project.projectCode)
-                //     return {...project, 'assigned': projectAssigned}
-                // }))
-                setProjects(response.data.filter(project => !assignedProjects.find(proj => proj.projectCode === project.projectCode)))
+                setProjects(response.data)
             },
             (err) => {
                 setAlert({
@@ -72,13 +56,17 @@ export default function AssignProjectPage(props){
             }
         )
 
-    },[props.sid.value, assignedProjects])
+    },[props.sid.value])
 
     const links = [
         {label:'Dashboard', href:'/admin'},
         {label:'Activate Users', href:'/admin/activate'},
-        {label:'Register Project', href:'/admin/register-project'},
-        {label:'Assign Projects', href:'/admin/assign-project', active: true}
+        {label:'Register Company', href:'/admin/register-company'},
+        {dropdown:'Projects', dropdownList:[
+            {label:'Register Project', href:'/admin/register-project'},
+            {label:'Assign Project to User', href:'/admin/assign-user', active: true},
+            {label:'Assign Project to Company', href:'/admin/assign-company'},
+        ]}
     ];
 
     return(
@@ -89,10 +77,14 @@ export default function AssignProjectPage(props){
                 greeting={`${props.user.value? props.user.value.fname : ""} ${props.user.value? props.user.value.lname: ""}`}
             />
             <Alert alert={alert} setAlert={setAlert}/>
+            <h1 className="text-light">Assign Company to Project</h1>
             <ProjectTable
                 projects={projects}
-                users={staff}
+                assign={company}
+                header={['Project Code', 'Project Name', 'Company', 'Action']}
+                id={'cid'}
                 type='assignTB'
+                request='projassigncom'
                 setAlert={setAlert}
                 sid={props.sid.value}
             />

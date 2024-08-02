@@ -1,6 +1,16 @@
+import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar(props){
+    const idDropdown = useId();
+    const [isOpen, setDropdown] = useState({});
+
+    const toggleOpen = (id)=>{
+        setDropdown((prev)=>{
+            return {...prev,[id]: !prev[id]};
+        });
+    }
+
     return(
         <nav
             className="w-100 navbar navbar-expand-sm navbar-dark bg-dark px-2"
@@ -20,6 +30,26 @@ export default function Navbar(props){
             <div className="collapse navbar-collapse" id="collapsibleNavId">
                 <ul className="navbar-nav me-auto mt-lg-0">
                     {props.links.map((link, idx) => {
+                        if(link.dropdown){
+                            return (
+                                <li className="nav-item dropdown" key={idx} onClick={() => toggleOpen(link.dropdown)}>
+                                    <Link 
+                                        className="nav-link dropdown-toggle"
+                                        // id='navbarDropdownMenuLink'
+                                        id={`${idDropdown}-${link.dropdown}`}
+                                        aria-haspopup="true" 
+                                        aria-expanded="false"
+                                        data-toggle="dropdown"
+                                        to="#"
+                                    >{link.dropdown}</Link>
+                                    <div className={`dropdown-menu${isOpen[link.dropdown] ? " show" : ""}`} aria-labelledby={`${idDropdown}-${link.dropdown}`}>
+                                    {link.dropdownList.map((item, idx) =>( 
+                                        <Link className="dropdown-item" key={idx} to={item.href}>{item.label}</Link>
+                                        ))}
+                                    </div>
+                              </li>
+                            )
+                        }
                         return (
                             <li className="nav-item" key={idx}>
                                 <Link className={`nav-link ${link.active ? "active": ""}`} to={link.href}>{link.label}</Link>

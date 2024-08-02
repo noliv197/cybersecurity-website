@@ -42,3 +42,23 @@ body {
     display: inline-block;
     width: fit-content;
 }
+
+.pop-container {
+    position: relative;
+    width: fit-content;
+}
+
+/* .edit-popup{
+    position: absolute;
+    z-index:  999;
+    top: 10%;
+    right: 10%;
+    transform: translate(-10%, -10%);
+    display: inline-block;
+    width: fit-content;
+} */
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}

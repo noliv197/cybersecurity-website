@@ -12,6 +12,11 @@ export default function ActivateUsersPage(props){
     const [alert, setAlert] = useState({message: "",type: ""});
 
 
+    useEffect(()=>{
+        if(!props.user.value || !props.sid.value) navigate('/login');
+        else if(props.user.value.role === 'c') navigate('/');
+        else if(props.user.value.role === 's') navigate('/staff');
+    }, [props.sid.value, props.user.value, navigate]);
     
     useEffect(()=>{
         const activateUser = (id) =>{
@@ -77,19 +82,19 @@ export default function ActivateUsersPage(props){
             )
         }
 
-        if(!props.user.value || !props.sid.value) navigate('/login');
-        else if(props.user.value.role === 'c') navigate('/');
-        else if(props.user.value.role === 's') navigate('/admin');
-
         reloadUsers();
         
-    }, [props.sid.value, props.user.value, navigate, users]);
+    }, [props.sid.value, users]);
 
     const links = [
         {label:'Dashboard', href:'/admin'},
         {label:'Activate Users', href:'/admin/activate', active: true},
-        {label:'Register Project', href:'/admin/register-project'},
-        {label:'Assign Projects', href:'/admin/assign-project',}
+        {label:'Register Company', href:'/admin/register-company'},
+        {dropdown:'Projects', dropdownList:[
+            {label:'Register Project', href:'/admin/register-project'},
+            {label:'Assign Project to User', href:'/admin/assign-user'},
+            {label:'Assign Project to Company', href:'/admin/assign-company'},
+        ]}
     ];
 
     const tableHeader = ['ID', 'User Name','Role', 'Email', 'Activation','Login Status'];

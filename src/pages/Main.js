@@ -30,7 +30,7 @@ export default function Main(props){
         }
         setUser(loginUser);
       } else{
-        if (location.pathname !=='/register') navigate("/login");
+        // if (location.pathname !=='/register') navigate("/login");
       }
 
       if(!props.sid && sessionStorage.getItem("sid")!== null){
